@@ -1,9 +1,10 @@
 <template>
   <div id="show-blogs">
     <h1>博客总览</h1>
-    <div v-for="blog in blogs" class="single-blogs">
-        <h1>{{blog.title}}</h1>
-        <article>{{blog.body}}</article>
+    <input type="text" placeholder="搜索" v-model="search">
+    <div v-for="blog in filteredBlogs" class="single-blogs">
+        <h1 v-rainbow>{{blog.title | to-uppercase}}</h1>
+        <article>{{blog.body | snippet}}</article>
     </div>
   </div>
 </template>
@@ -14,7 +15,8 @@ export default {
   name: "show-blogs",
   data() {
       return {
-          blogs: []
+          blogs: [],
+          search: ""
       }
   },
   created() {
@@ -22,6 +24,30 @@ export default {
         this.blogs= data.body;
           console.log(this.blogs);
       })
+  },
+  computed: {
+      filteredBlogs: function() {
+          return this.blogs.filter(blog => {
+              return blog.title.match(this.search);
+          })
+      }
+  },
+  // 自定义过滤器
+  filters: {
+      toUppercase(value) {
+          return value.toUpperCase();
+      },
+      snippet(value) {
+          return value.slice(0, 200) + "....";
+      }
+  },
+  // 自定义指令
+  directives: {
+      "rainbow": {
+          bind(el, binding, vnode) {
+              el.style.color = "#" + Math.random().toString(16).slice(2,8);
+          }
+      }
   }
 };
 </script>
