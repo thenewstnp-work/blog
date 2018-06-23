@@ -1,9 +1,11 @@
 <template>
   <div id="show-blogs">
     <h1>博客总览</h1>
-    <input type="text" placeholder="搜索" v-model="search">
+    <input type="text" placeholder="搜索" v-model="search" class="blogs-search">
     <div v-for="blog in filteredBlogs" class="single-blogs">
+        <router-link v-bind:to="'/blog/' + blog.id">
         <h1 v-rainbow>{{blog.title | to-uppercase}}</h1>
+        </router-link>
         <article>{{blog.body | snippet}}</article>
     </div>
   </div>
@@ -20,7 +22,7 @@ export default {
       }
   },
   created() {
-      this.$http.get("http://jsonplaceholder.typicode.com/posts").then(data => {
+      this.$http.get("../../static/posts.json").then(data => {
         this.blogs= data.body;
           console.log(this.blogs);
       })
@@ -68,5 +70,13 @@ export default {
     font-size: 24px;
     font-weight: 400;
     line-height: 1.4em;
+}
+a{
+    text-decoration: none;
+}
+.blogs-search{
+    box-sizing: border-box;
+    width: 100%;
+    padding: 4px 4px 4px 10px;
 }
 </style>

@@ -11,6 +11,7 @@
 import AddBlog from "./components/AddBlog";
 import ShowBlogs from "./components/ShowBlogs";
 import BlogHeader from "./components/BlogHeader";
+import SingleBlog from "./components/SingleBlog";
 
 export default {
   name: "App",
